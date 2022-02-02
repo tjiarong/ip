@@ -2,9 +2,16 @@ public class Task {
     protected String description;
     protected boolean isDone;
 
+    private static int taskCount = 0;
+
     public Task(String description) {
         this.description = description;
         this.isDone = false;
+        taskCount++;
+    }
+
+    public int getTaskCount(){
+        return taskCount;
     }
 
     public String getStatusIcon() {
@@ -17,6 +24,15 @@ public class Task {
 
     public void markAsNotDone() {
         this.isDone = false;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
+    public String toString() {
+        return ("[" + getStatusIcon() + "] " + getDescription());
     }
 
 }
