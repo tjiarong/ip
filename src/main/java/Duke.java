@@ -10,6 +10,7 @@ public class Duke {
 
         Scanner in = new Scanner(System.in);
         String line = in.nextLine();
+        // Extract first part of command for action
         String command = line.split(" ")[0];
         while (!command.equals("bye")) {
             switch (command) {
