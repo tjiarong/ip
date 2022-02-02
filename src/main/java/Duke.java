@@ -2,31 +2,15 @@ import java.util.Scanner;
 
 public class Duke {
     public static void main(String[] args) {
-        String line;
         final int MAX_TASK = 100;
-
-        Scanner in = new Scanner(System.in);
         Task[] tasks = new Task[MAX_TASK];
         tasks[0] = new Task("Init");
 
-        String logo = "_______  _______ _________ _______ _________ _______  _\n"
-                    + "(  ____ )(  ___  )\\__   __/(  ___  )\\__   __/(  ___  )( (    /|\n"
-                    + "| (    )|| (   ) |   ) (   | (   ) |   ) (   | (   ) ||  \\  ( |\\\n"
-                    + "| (____)|| |   | |   | |   | (___) |   | |   | |   | ||   \\ | |\n"
-                    + "|  _____)| |   | |   | |   |  ___  |   | |   | |   | || (\\ \\) | \n"
-                    + "| (      | |   | |   | |   | (   ) |   | |   | |   | || | \\   | \n"
-                    + "| )      | (___) |   | |   | )   ( |   | |   | (___) || )  \\  | \n"
-                    + "|/       (_______)   )_(   |/     \\|   )_(   (_______)|/    )_) \n";
+        printWelcomeMessage();
 
-        System.out.println("_____________________________________________\n"
-                        + logo + "\n"
-                        + "Hello! I'm Duke\n"
-                        + "What can I do for you?\n"
-                        + "_____________________________________________\n"
-                );
-
-        line = in.nextLine();
-        String command = line.split( " ")[0];
+        Scanner in = new Scanner(System.in);
+        String line = in.nextLine();
+        String command = line.split(" ")[0];
         while (!command.equals("bye")) {
             switch (command) {
             case "list":
@@ -52,16 +36,34 @@ public class Duke {
                 break;
             }
             line = in.nextLine();
-            command = line.split( " ")[0];
+            command = line.split(" ")[0];
         }
 
         printBye();
     }
 
+    private static void printWelcomeMessage() {
+        String logo = "_______  _______ _________ _______ _________ _______  _\n"
+                    + "(  ____ )(  ___  )\\__   __/(  ___  )\\__   __/(  ___  )( (    /|\n"
+                    + "| (    )|| (   ) |   ) (   | (   ) |   ) (   | (   ) ||  \\  ( |\\\n"
+                    + "| (____)|| |   | |   | |   | (___) |   | |   | |   | ||   \\ | |\n"
+                    + "|  _____)| |   | |   | |   |  ___  |   | |   | |   | || (\\ \\) | \n"
+                    + "| (      | |   | |   | |   | (   ) |   | |   | |   | || | \\   | \n"
+                    + "| )      | (___) |   | |   | )   ( |   | |   | (___) || )  \\  | \n"
+                    + "|/       (_______)   )_(   |/     \\|   )_(   (_______)|/    )_) \n";
+
+        System.out.println("_____________________________________________\n"
+                        + logo + "\n"
+                        + "Hello! I'm Duke\n"
+                        + "What can I do for you?\n"
+                        + "_____________________________________________\n"
+                );
+    }
+
     private static void addEvent(String line, Task[] tasks) {
         String arg = line.split(" ", 2)[1];
-        String event = arg.split( "/at ", 2)[0];
-        String eventDate = arg.split( "/at ", 2)[1];
+        String event = arg.split("/at ", 2)[0];
+        String eventDate = arg.split("/at ", 2)[1];
         Task t = new Events(event, eventDate);
         tasks[t.getTaskCount() - 1] = t;
         System.out.println("_____________________________________________\n"
@@ -74,8 +76,8 @@ public class Duke {
 
     private static void addDeadline(String line, Task[] tasks) {
         String arg = line.split(" ", 2)[1];
-        String task = arg.split( "/by ", 2)[0];
-        String dueDate = arg.split( "/by ", 2)[1];
+        String task = arg.split("/by ", 2)[0];
+        String dueDate = arg.split("/by ", 2)[1];
         Task t = new Deadline(task, dueDate);
         tasks[t.getTaskCount() - 1] = t;
         System.out.println("_____________________________________________\n"
@@ -117,20 +119,20 @@ public class Duke {
     }
 
     private static void markTask(String line, Task[] tasks) {
-        String arg = line.split( " ")[1];
+        String arg = line.split(" ")[1];
         int taskNum = Integer.parseInt(arg);
         if (taskNum <= tasks[0].getTaskCount()) {
             tasks[taskNum].markAsDone();
             System.out.println("_____________________________________________\n"
                     + "Nice! I've marked this task as done:\n"
-                    + tasks[taskNum] +"\n"
+                    + tasks[taskNum] + "\n"
                     + "_____________________________________________\n"
             );
         }
     }
 
     private static void unmarkTask(String line, Task[] tasks) {
-        String arg = line.split( " ")[1];
+        String arg = line.split(" ")[1];
         int taskNum = Integer.parseInt(arg);
         tasks[taskNum].markAsNotDone();
         if (taskNum <= tasks[0].getTaskCount()) {
