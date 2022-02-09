@@ -44,8 +44,8 @@ public class Duke {
     }
 
     private static void printWelcomeMessage() {
-        String logo = "_______  _______ _________ _______ _________ _______  _\n"
-                    + "(  ____ )(  ___  )\\__   __/(  ___  )\\__   __/(  ___  )( (    /|\n"
+        String logo = " ______   _____   ________  _______ __________ _______ \n"
+                    + "( ____ )(  ___  )\\__   __/(  ___  )\\__   __/(  ___  )( (    /|\n"
                     + "| (    )|| (   ) |   ) (   | (   ) |   ) (   | (   ) ||  \\  ( |\\\n"
                     + "| (____)|| |   | |   | |   | (___) |   | |   | |   | ||   \\ | |\n"
                     + "|  _____)| |   | |   | |   |  ___  |   | |   | |   | || (\\ \\) | \n"
@@ -55,7 +55,7 @@ public class Duke {
 
         System.out.println("_____________________________________________\n"
                         + logo + "\n"
-                        + "Hello! I'm Duke\n"
+                        + "Hello! I'm Potaton\n"
                         + "What can I do for you?\n"
                         + "_____________________________________________\n"
                 );
@@ -129,6 +129,8 @@ public class Duke {
                     + tasks[taskNum] + "\n"
                     + "_____________________________________________\n"
             );
+        } else {
+            System.out.println("Invalid option");
         }
     }
 
@@ -142,6 +144,8 @@ public class Duke {
                     + tasks[taskNum] + "\n"
                     + "_____________________________________________\n"
             );
+        } else {
+            System.out.println("Invalid option");
         }
     }
 
