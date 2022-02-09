@@ -1,8 +1,11 @@
 import java.util.Scanner;
 
 public class Duke {
+
+    public static final int MAX_TASK = 100;
+
     public static void main(String[] args) {
-        final int MAX_TASK = 100;
+
         Task[] tasks = new Task[MAX_TASK];
         tasks[0] = new Task("Init");
 
@@ -24,7 +27,16 @@ public class Duke {
                 markTask(line, tasks);
                 break;
             case "todo":
-                addToDo(line, tasks);
+                try {
+                    addToDo(line, tasks);
+                } catch (IndexOutOfBoundsException e) {
+                    // Refactor this later
+                    System.out.println("_____________________________________________\n"
+                            + "Error: The description of a todo cannot be empty." + "\n"
+                            + "_____________________________________________\n"
+                    );
+                }
+
                 break;
             case "deadline":
                 addDeadline(line, tasks);
@@ -33,7 +45,7 @@ public class Duke {
                 addEvent(line, tasks);
                 break;
             default:
-                addTask(line, tasks);
+                printError();
                 break;
             }
             line = in.nextLine();
@@ -44,8 +56,8 @@ public class Duke {
     }
 
     private static void printWelcomeMessage() {
-        String logo = "_______  _______ _________ _______ _________ _______  _\n"
-                    + "(  ____ )(  ___  )\\__   __/(  ___  )\\__   __/(  ___  )( (    /|\n"
+        String logo = " ______   _____   ________  _______ __________ _______ \n"
+                    + "( ____ )(  ___  )\\__   __/(  ___  )\\__   __/(  ___  )( (    /|\n"
                     + "| (    )|| (   ) |   ) (   | (   ) |   ) (   | (   ) ||  \\  ( |\\\n"
                     + "| (____)|| |   | |   | |   | (___) |   | |   | |   | ||   \\ | |\n"
                     + "|  _____)| |   | |   | |   |  ___  |   | |   | |   | || (\\ \\) | \n"
@@ -55,7 +67,7 @@ public class Duke {
 
         System.out.println("_____________________________________________\n"
                         + logo + "\n"
-                        + "Hello! I'm Duke\n"
+                        + "Hello! I'm Potaton\n"
                         + "What can I do for you?\n"
                         + "_____________________________________________\n"
                 );
@@ -89,7 +101,7 @@ public class Duke {
         );
     }
 
-    private static void addToDo(String line, Task[] tasks) {
+    private static void addToDo(String line, Task[] tasks) throws IndexOutOfBoundsException{
         String arg = line.split(" ", 2)[1];
         Task t = new ToDos(arg);
         tasks[t.getTaskCount() - 1] = t;
@@ -97,15 +109,6 @@ public class Duke {
                 + "Got it. I've added this task: \n"
                 + t + "\n"
                 + "Now you have " + (t.getTaskCount() - 1) + " tasks in the list." + "\n"
-                + "_____________________________________________\n"
-        );
-    }
-
-    private static void addTask(String line, Task[] tasks) {
-        Task t = new Task(line);
-        tasks[t.getTaskCount() - 1] = t;
-        System.out.println("_____________________________________________\n"
-                + "added: " + line + "\n"
                 + "_____________________________________________\n"
         );
     }
@@ -129,6 +132,8 @@ public class Duke {
                     + tasks[taskNum] + "\n"
                     + "_____________________________________________\n"
             );
+        } else {
+            System.out.println("Invalid option");
         }
     }
 
@@ -142,7 +147,16 @@ public class Duke {
                     + tasks[taskNum] + "\n"
                     + "_____________________________________________\n"
             );
+        } else {
+            System.out.println("Invalid option");
         }
+    }
+
+    private static void printError() {
+        System.out.println("_____________________________________________\n"
+                + "Error: Invalid command. Try again you nerd." + "\n"
+                + "_____________________________________________\n"
+        );
     }
 
     private static void printBye() {

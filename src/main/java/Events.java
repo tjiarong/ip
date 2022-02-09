@@ -1,5 +1,5 @@
 public class Events extends Task {
-    protected String period;
+    private String period;
 
     public Events(String description, String period) {
         super(description);
