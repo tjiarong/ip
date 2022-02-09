@@ -1,3 +1,10 @@
+package duke;
+
+import duke.task.Deadline;
+import duke.task.Events;
+import duke.task.Task;
+import duke.task.ToDos;
+
 import java.util.Scanner;
 
 public class Duke {
@@ -7,7 +14,7 @@ public class Duke {
     public static void main(String[] args) {
 
         Task[] tasks = new Task[MAX_TASK];
-        tasks[0] = new Task("Init");
+        tasks[0] = new ToDos("Init");
 
         printWelcomeMessage();
 
