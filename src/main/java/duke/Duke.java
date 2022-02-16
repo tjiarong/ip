@@ -9,6 +9,14 @@ import java.util.Scanner;
 
 public class Duke {
 
+    public static final String TASK_LIST = "list";
+    public static final String TASK_TODO = "todo";
+    public static final String TASK_EVENT = "event";
+    public static final String TASK_DEADLINE = "deadline";
+    public static final String TASK_MARK = "mark";
+    public static final String TASK_UNMARK = "unmark";
+    public static final String EXIT = "bye";
+    
     public static final int MAX_TASK = 100;
 
     public static void main(String[] args) {
@@ -22,18 +30,18 @@ public class Duke {
         String line = in.nextLine();
         // Extract first part of command for action
         String command = line.split(" ")[0];
-        while (!command.equals("bye")) {
+        while (!command.equals(EXIT)) {
             switch (command) {
-            case "list":
+            case TASK_LIST:
                 printList(tasks);
                 break;
-            case "unmark":
+            case TASK_UNMARK:
                 unmarkTask(line, tasks);
                 break;
-            case "mark":
+            case TASK_MARK:
                 markTask(line, tasks);
                 break;
-            case "todo":
+            case TASK_TODO:
                 try {
                     addToDo(line, tasks);
                 } catch (IndexOutOfBoundsException e) {
@@ -43,12 +51,11 @@ public class Duke {
                             + "_____________________________________________\n"
                     );
                 }
-
                 break;
-            case "deadline":
+            case TASK_DEADLINE:
                 addDeadline(line, tasks);
                 break;
-            case "event":
+            case TASK_EVENT:
                 addEvent(line, tasks);
                 break;
             default:
@@ -58,7 +65,6 @@ public class Duke {
             line = in.nextLine();
             command = line.split(" ")[0];
         }
-
         printBye();
     }
 
