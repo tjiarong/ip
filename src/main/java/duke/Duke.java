@@ -5,6 +5,9 @@ import duke.task.Events;
 import duke.task.Task;
 import duke.task.ToDos;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Duke {
@@ -15,14 +18,11 @@ public class Duke {
     public static final String TASK_DEADLINE = "deadline";
     public static final String TASK_MARK = "mark";
     public static final String TASK_UNMARK = "unmark";
+    public static final String TASK_DELETE = "delete";
     public static final String EXIT = "bye";
 
-    public static final int MAX_TASK = 100;
-
-    public static void main(String[] args) {
-
-        Task[] tasks = new Task[MAX_TASK];
-        tasks[0] = new ToDos("Init");
+    public static void main(String[] args) throws IOException {
+        ArrayList<Task> tasks = new ArrayList<>();
 
         printWelcomeMessage();
 
@@ -58,6 +58,9 @@ public class Duke {
             case TASK_EVENT:
                 addEvent(line, tasks);
                 break;
+            case TASK_DELETE:
+                deleteTask(line, tasks);
+                break;
             default:
                 printError();
                 break;
@@ -65,6 +68,7 @@ public class Duke {
             line = in.nextLine();
             command = line.split(" ")[0];
         }
+        saveContentToFile(tasks);
         printBye();
     }
 
@@ -86,63 +90,63 @@ public class Duke {
                 );
     }
 
-    private static void addEvent(String line, Task[] tasks) {
+    private static void addEvent(String line, ArrayList<Task> tasks) {
         String arg = line.split(" ", 2)[1];
         String event = arg.split("/at ", 2)[0];
         String eventDate = arg.split("/at ", 2)[1];
         Task t = new Events(event, eventDate);
-        tasks[t.getTaskCount() - 1] = t;
+        tasks.add(t);
         System.out.println("_____________________________________________\n"
                 + "Got it. I've added this task: \n"
                 +  t + "\n"
-                + "Now you have " + (t.getTaskCount() - 1) + " tasks in the list." + "\n"
+                + "Now you have " + tasks.size() + " tasks in the list." + "\n"
                 + "_____________________________________________\n"
         );
     }
 
-    private static void addDeadline(String line, Task[] tasks) {
+    private static void addDeadline(String line, ArrayList<Task> tasks) {
         String arg = line.split(" ", 2)[1];
         String task = arg.split("/by ", 2)[0];
         String dueDate = arg.split("/by ", 2)[1];
         Task t = new Deadline(task, dueDate);
-        tasks[t.getTaskCount() - 1] = t;
+        tasks.add(t);
         System.out.println("_____________________________________________\n"
                 + "Got it. I've added this task: \n"
                 +  t + "\n"
-                + "Now you have " + (t.getTaskCount() - 1) + " tasks in the list." + "\n"
+                + "Now you have " + tasks.size() + " tasks in the list." + "\n"
                 + "_____________________________________________\n"
         );
     }
 
-    private static void addToDo(String line, Task[] tasks) throws IndexOutOfBoundsException{
+    private static void addToDo(String line, ArrayList<Task> tasks) throws IndexOutOfBoundsException{
         String arg = line.split(" ", 2)[1];
         Task t = new ToDos(arg);
-        tasks[t.getTaskCount() - 1] = t;
+        tasks.add(t);
         System.out.println("_____________________________________________\n"
                 + "Got it. I've added this task: \n"
                 + t + "\n"
-                + "Now you have " + (t.getTaskCount() - 1) + " tasks in the list." + "\n"
+                + "Now you have " + tasks.size() + " tasks in the list." + "\n"
                 + "_____________________________________________\n"
         );
     }
 
-    private static void printList(Task[] tasks) {
+    private static void printList(ArrayList<Task> tasks) {
         System.out.println("_____________________________________________\n"
                 + "   Here are the tasks in your list:\n");
-        for (int i = 1; i < tasks[0].getTaskCount(); i++) {
-            System.out.println(tasks[i]);
+        for (Task task : tasks) {
+            System.out.println(task);
         }
         System.out.println("_____________________________________________\n");
     }
 
-    private static void markTask(String line, Task[] tasks) {
+    private static void markTask(String line, ArrayList<Task> tasks) {
         String arg = line.split(" ")[1];
         int taskNum = Integer.parseInt(arg);
-        if (taskNum <= tasks[0].getTaskCount()) {
-            tasks[taskNum].markAsDone();
+        if (taskNum <= tasks.size()) {
+            tasks.get(taskNum - 1).markAsDone();
             System.out.println("_____________________________________________\n"
                     + "Nice! I've marked this task as done:\n"
-                    + tasks[taskNum] + "\n"
+                    + tasks.get(taskNum - 1) + "\n"
                     + "_____________________________________________\n"
             );
         } else {
@@ -150,19 +154,45 @@ public class Duke {
         }
     }
 
-    private static void unmarkTask(String line, Task[] tasks) {
+    private static void unmarkTask(String line, ArrayList<Task> tasks) {
         String arg = line.split(" ")[1];
         int taskNum = Integer.parseInt(arg);
-        tasks[taskNum].markAsNotDone();
-        if (taskNum <= tasks[0].getTaskCount()) {
+        tasks.get(taskNum - 1).markAsNotDone();
+        if (taskNum <= tasks.size()) {
             System.out.println("_____________________________________________\n"
                     + "OK, I've marked this task as not done yet:\n"
-                    + tasks[taskNum] + "\n"
+                    + tasks.get(taskNum - 1) + "\n"
                     + "_____________________________________________\n"
             );
         } else {
             System.out.println("Invalid option");
         }
+    }
+
+    private static void deleteTask(String line, ArrayList<Task> tasks) {
+        String arg = line.split(" ")[1];
+        int taskNum = Integer.parseInt(arg);
+        if (taskNum <= tasks.size()) {
+            System.out.println("_____________________________________________\n"
+                    + "Noted. I've removed this task:\n"
+                    + tasks.get(taskNum - 1) + "\n"
+                    + "Now you have " + (tasks.size() - 1) + " tasks in the list.\n"
+                    + "_____________________________________________\n"
+            );
+            tasks.remove(taskNum - 1);
+        } else {
+            System.out.println("Invalid option");
+        }
+    }
+
+    private static void saveContentToFile(ArrayList<Task> tasks) throws IOException {
+        FileWriter fw = new FileWriter("duke.txt");
+        tasks.remove(0);
+        for (Task task : tasks) {
+            fw.write(String.valueOf(task));
+            fw.write(System.lineSeparator());
+        }
+        fw.close();
     }
 
     private static void printError() {
