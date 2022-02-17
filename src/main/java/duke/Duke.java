@@ -16,7 +16,7 @@ public class Duke {
     public static final String TASK_MARK = "mark";
     public static final String TASK_UNMARK = "unmark";
     public static final String EXIT = "bye";
-    
+
     public static final int MAX_TASK = 100;
 
     public static void main(String[] args) {
