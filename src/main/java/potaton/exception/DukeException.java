@@ -1,4 +1,4 @@
-package duke.exception;
+package potaton.exception;
 
 public class DukeException extends Exception{
 }

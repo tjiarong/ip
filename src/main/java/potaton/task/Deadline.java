@@ -1,4 +1,4 @@
-package duke.task;
+package potaton.task;
 
 public class Deadline extends Task {
 

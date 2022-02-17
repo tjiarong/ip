@@ -1,4 +1,4 @@
-package duke.task;
+package potaton.task;
 
 public class Events extends Task {
     private String period;

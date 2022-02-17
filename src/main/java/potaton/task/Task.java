@@ -1,4 +1,4 @@
-package duke.task;
+package potaton.task;
 
 public abstract class Task {
     protected String description;

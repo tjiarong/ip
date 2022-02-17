@@ -1,18 +1,17 @@
-package duke;
+package potaton;
 
-import duke.task.Deadline;
-import duke.task.Events;
-import duke.task.Task;
-import duke.task.ToDos;
+import potaton.task.Deadline;
+import potaton.task.Events;
+import potaton.task.Task;
+import potaton.task.ToDos;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Duke {
+public class Potaton {
 
     public static final String TASK_LIST = "list";
     public static final String TASK_TODO = "todo";
@@ -27,7 +26,9 @@ public class Duke {
     public static final String LOADTASK_EVENT = "E";
     public static final String LOADTASK_DEADLINE = "D";
 
-    public static final String INIT_FILE_PATH = "duke.txt";
+    public static final String INIT_FILE_PATH = "potaton.txt";
+    public static final String FILE_MISSING_MESSAGE = "File does not exist. Creating file.";
+    public static final String FILE_FOUND_MESSAGE = "File found. Loading file into database.";
 
     public static void main(String[] args) throws IOException {
         printWelcomeMessage();
@@ -236,7 +237,7 @@ public class Duke {
     }
 
     private static void saveContentToFile(ArrayList<Task> tasks) throws IOException {
-        FileWriter fw = new FileWriter("duke.txt");
+        FileWriter fw = new FileWriter(INIT_FILE_PATH);
         for (Task task : tasks) {
             fw.write(String.valueOf(task));
             fw.write(System.lineSeparator());
@@ -258,8 +259,15 @@ public class Duke {
         );
     }
 
-    private static void loadFileContent(ArrayList<Task> tasks) throws FileNotFoundException {
+    private static void loadFileContent(ArrayList<Task> tasks) throws IOException {
         File f = new File(INIT_FILE_PATH);
+        if (f.createNewFile()){
+            System.out.println(FILE_MISSING_MESSAGE + "\n"
+                            + "_____________________________________________\n" );
+        } else {
+            System.out.println(FILE_FOUND_MESSAGE + "\n"
+                    + "_____________________________________________\n" );
+        }
         Scanner s = new Scanner(f);
         while (s.hasNext()) {
             String line = s.nextLine();
