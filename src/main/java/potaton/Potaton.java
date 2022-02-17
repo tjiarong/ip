@@ -157,7 +157,7 @@ public class Potaton {
         );
     }
 
-    private static void addToDo(String line, ArrayList<Task> tasks) throws IndexOutOfBoundsException{
+    private static void addToDo(String line, ArrayList<Task> tasks) throws IndexOutOfBoundsException {
         String arg = line.split(" ", 2)[1];
         Task t = new ToDos(arg);
         tasks.add(t);
@@ -169,7 +169,7 @@ public class Potaton {
         );
     }
 
-    private static void loadToDo(String line, ArrayList<Task> tasks) throws IndexOutOfBoundsException{
+    private static void loadToDo(String line, ArrayList<Task> tasks) throws IndexOutOfBoundsException {
         String arg = line.split("] ", 2)[1];
         Task t = new ToDos(arg);
         tasks.add(t);
@@ -261,12 +261,12 @@ public class Potaton {
 
     private static void loadFileContent(ArrayList<Task> tasks) throws IOException {
         File f = new File(INIT_FILE_PATH);
-        if (f.createNewFile()){
+        if (f.createNewFile()) {
             System.out.println(FILE_MISSING_MESSAGE + "\n"
-                            + "_____________________________________________\n" );
+                            + "_____________________________________________\n");
         } else {
             System.out.println(FILE_FOUND_MESSAGE + "\n"
-                    + "_____________________________________________\n" );
+                    + "_____________________________________________\n");
         }
         Scanner s = new Scanner(f);
         while (s.hasNext()) {
@@ -297,10 +297,3 @@ public class Potaton {
         }
     }
 }
-
-
-
-
-
-
-
