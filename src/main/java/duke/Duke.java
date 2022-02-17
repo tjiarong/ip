@@ -5,6 +5,8 @@ import duke.task.Events;
 import duke.task.Task;
 import duke.task.ToDos;
 
+import java.io.File;
+import java.io.FileNotFoundException;bye
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,14 +23,24 @@ public class Duke {
     public static final String TASK_DELETE = "delete";
     public static final String EXIT = "bye";
 
+    public static final String LOADTASK_TODO = "T";
+    public static final String LOADTASK_EVENT = "E";
+    public static final String LOADTASK_DEADLINE = "D";
+
+    public static final String INIT_FILE_PATH = "duke.txt";
+
     public static void main(String[] args) throws IOException {
-        ArrayList<Task> tasks = new ArrayList<>();
-
         printWelcomeMessage();
+        ArrayList<Task> tasks = new ArrayList<>();
+        loadFileContent(tasks);
+        parseUserCommand(tasks);
+        saveContentToFile(tasks);
+        printBye();
+    }
 
+    private static void parseUserCommand(ArrayList<Task> tasks) {
         Scanner in = new Scanner(System.in);
         String line = in.nextLine();
-        // Extract first part of command for action
         String command = line.split(" ")[0];
         while (!command.equals(EXIT)) {
             switch (command) {
@@ -68,32 +80,44 @@ public class Duke {
             line = in.nextLine();
             command = line.split(" ")[0];
         }
-        saveContentToFile(tasks);
-        printBye();
     }
 
     private static void printWelcomeMessage() {
         String logo = " ______   _____   ________  _______ __________ _______ \n"
-                    + "( ____ )(  ___  )\\__   __/(  ___  )\\__   __/(  ___  )( (    /|\n"
-                    + "| (    )|| (   ) |   ) (   | (   ) |   ) (   | (   ) ||  \\  ( |\\\n"
-                    + "| (____)|| |   | |   | |   | (___) |   | |   | |   | ||   \\ | |\n"
-                    + "|  _____)| |   | |   | |   |  ___  |   | |   | |   | || (\\ \\) | \n"
-                    + "| (      | |   | |   | |   | (   ) |   | |   | |   | || | \\   | \n"
-                    + "| )      | (___) |   | |   | )   ( |   | |   | (___) || )  \\  | \n"
-                    + "|/       (_______)   )_(   |/     \\|   )_(   (_______)|/    )_) \n";
+                + "( ____ )(  ___  )\\__   __/(  ___  )\\__   __/(  ___  )( (    /|\n"
+                + "| (    )|| (   ) |   ) (   | (   ) |   ) (   | (   ) ||  \\  ( |\\\n"
+                + "| (____)|| |   | |   | |   | (___) |   | |   | |   | ||   \\ | |\n"
+                + "|  _____)| |   | |   | |   |  ___  |   | |   | |   | || (\\ \\) | \n"
+                + "| (      | |   | |   | |   | (   ) |   | |   | |   | || | \\   | \n"
+                + "| )      | (___) |   | |   | )   ( |   | |   | (___) || )  \\  | \n"
+                + "|/       (_______)   )_(   |/     \\|   )_(   (_______)|/    )_) \n";
 
         System.out.println("_____________________________________________\n"
-                        + logo + "\n"
-                        + "Hello! I'm Potaton\n"
-                        + "What can I do for you?\n"
-                        + "_____________________________________________\n"
-                );
+                + logo + "\n"
+                + "Hello! I'm Potaton\n"
+                + "What can I do for you?\n"
+                + "_____________________________________________\n"
+        );
     }
 
     private static void addEvent(String line, ArrayList<Task> tasks) {
         String arg = line.split(" ", 2)[1];
         String event = arg.split("/at ", 2)[0];
         String eventDate = arg.split("/at ", 2)[1];
+        Task t = new Events(event, eventDate);
+        tasks.add(t);
+        System.out.println("_____________________________________________\n"
+                + "Got it. I've added this task: \n"
+                +  t + "\n"
+                + "Now you have " + tasks.size() + " tasks in the list." + "\n"
+                + "_____________________________________________\n"
+        );
+    }
+
+    private static void loadEvent(String line, ArrayList<Task> tasks) {
+        String arg = line.split("] ", 2)[1];
+        String event = arg.split(" \\(at: ", 2)[0];
+        String eventDate = arg.split(" \\(at: ", 2)[1].split("\\)")[0];
         Task t = new Events(event, eventDate);
         tasks.add(t);
         System.out.println("_____________________________________________\n"
@@ -118,8 +142,34 @@ public class Duke {
         );
     }
 
+    private static void loadDeadline(String line, ArrayList<Task> tasks) {
+        String arg = line.split("] ", 2)[1];
+        String task = arg.split(" \\(by: ", 2)[0];
+        String dueDate = arg.split(" \\(by: ", 2)[1].split("\\)")[0];
+        Task t = new Deadline(task, dueDate);
+        tasks.add(t);
+        System.out.println("_____________________________________________\n"
+                + "Got it. I've added this task: \n"
+                +  t + "\n"
+                + "Now you have " + tasks.size() + " tasks in the list." + "\n"
+                + "_____________________________________________\n"
+        );
+    }
+
     private static void addToDo(String line, ArrayList<Task> tasks) throws IndexOutOfBoundsException{
         String arg = line.split(" ", 2)[1];
+        Task t = new ToDos(arg);
+        tasks.add(t);
+        System.out.println("_____________________________________________\n"
+                + "Got it. I've added this task: \n"
+                + t + "\n"
+                + "Now you have " + tasks.size() + " tasks in the list." + "\n"
+                + "_____________________________________________\n"
+        );
+    }
+
+    private static void loadToDo(String line, ArrayList<Task> tasks) throws IndexOutOfBoundsException{
+        String arg = line.split("] ", 2)[1];
         Task t = new ToDos(arg);
         tasks.add(t);
         System.out.println("_____________________________________________\n"
@@ -157,8 +207,8 @@ public class Duke {
     private static void unmarkTask(String line, ArrayList<Task> tasks) {
         String arg = line.split(" ")[1];
         int taskNum = Integer.parseInt(arg);
-        tasks.get(taskNum - 1).markAsNotDone();
         if (taskNum <= tasks.size()) {
+            tasks.get(taskNum - 1).markAsNotDone();
             System.out.println("_____________________________________________\n"
                     + "OK, I've marked this task as not done yet:\n"
                     + tasks.get(taskNum - 1) + "\n"
@@ -187,7 +237,6 @@ public class Duke {
 
     private static void saveContentToFile(ArrayList<Task> tasks) throws IOException {
         FileWriter fw = new FileWriter("duke.txt");
-        tasks.remove(0);
         for (Task task : tasks) {
             fw.write(String.valueOf(task));
             fw.write(System.lineSeparator());
@@ -197,7 +246,7 @@ public class Duke {
 
     private static void printError() {
         System.out.println("_____________________________________________\n"
-                + "Error: Invalid command. Try again you nerd." + "\n"
+                + "Error: Invalid input. Try again you nerd." + "\n"
                 + "_____________________________________________\n"
         );
     }
@@ -207,6 +256,37 @@ public class Duke {
                 + "Bye. Hope to see you again soon!\n"
                 + "_____________________________________________\n"
         );
+    }
+
+    private static void loadFileContent(ArrayList<Task> tasks) throws FileNotFoundException {
+        File f = new File(INIT_FILE_PATH);
+        Scanner s = new Scanner(f);
+        while (s.hasNext()) {
+            String line = s.nextLine();
+            String taskType = Character.toString(line.charAt(1));
+            switch (taskType) {
+            case LOADTASK_TODO:
+                try {
+                    loadToDo(line, tasks);
+                } catch (IndexOutOfBoundsException e) {
+                    // Refactor this later
+                    System.out.println("_____________________________________________\n"
+                            + "Error: The description of a todo cannot be empty." + "\n"
+                            + "_____________________________________________\n"
+                    );
+                }
+                break;
+            case LOADTASK_DEADLINE:
+                loadDeadline(line, tasks);
+                break;
+            case LOADTASK_EVENT:
+                loadEvent(line, tasks);
+                break;
+            default:
+                printError();
+                break;
+            }
+        }
     }
 }
 
