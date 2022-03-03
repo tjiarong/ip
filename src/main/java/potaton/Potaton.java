@@ -116,10 +116,10 @@ public class Potaton {
         }
 
         String event = arg[1];
-        String Date = arg[2].split("/at ", 2)[1];
+        String parsedDate = arg[2].split("/at ", 2)[1];
 
         try {
-            eventDate = LocalDate.parse(Date);
+            eventDate = LocalDate.parse(parsedDate);
         } catch (Exception e){
             System.out.println("Invalid date provided. Setting to default");
         }
