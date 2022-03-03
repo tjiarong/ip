@@ -5,23 +5,23 @@ import java.time.format.DateTimeFormatter;
 
 public class Deadline extends Task {
 
-    private LocalDate by;
+    private LocalDate dueDate;
 
-    public Deadline(String description, LocalDate by) {
+    public Deadline(String description, LocalDate dueDate) {
         super(description);
-        this.by = by;
+        this.dueDate = dueDate;
     }
 
-    public String getBy() {
-        return by.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
     }
 
-    public void setBy(LocalDate by) {
-        this.by = by;
+    public String getDueDate() {
+        return dueDate.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
     }
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + getBy() + ")";
+        return "[D]" + super.toString() + " (by: " + getDueDate() + ")";
     }
 }
