@@ -148,7 +148,7 @@ public class Potaton {
 
         try {
             eventDate = LocalDate.parse(Date);
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Invalid date provided. Setting to default");
         }
 
