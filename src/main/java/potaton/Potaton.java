@@ -311,23 +311,18 @@ public class Potaton {
 
     private static void findString(String line, ArrayList<Task> tasks) {
         String[] arg = line.split(" ");
-
         if (arg.length != 2) {
             System.out.println("Invalid options");
             return;
         }
-
         String matchString = arg[1];
-
         System.out.println("_____________________________________________\n"
                 + "Here are the matching tasks in your list:\n");
-
         for (Task task: tasks) {
             if (task.getDescription().contains(matchString)){
                 System.out.println(task);
             }
         }
-
         System.out.println("_____________________________________________\n");
     }
 
