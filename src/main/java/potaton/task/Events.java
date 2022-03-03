@@ -1,23 +1,26 @@
 package potaton.task;
 
-public class Events extends Task {
-    private String period;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
-    public Events(String description, String period) {
+public class Events extends Task {
+    private LocalDate period;
+
+    public Events(String description, LocalDate period) {
         super(description);
         this.period = period;
     }
 
-    public void setPeriod(String period) {
+    public void setPeriod(LocalDate period) {
         this.period = period;
     }
 
     public String getPeriod() {
-        return period;
+        return period.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
     }
 
     @Override
     public String toString() {
-        return ("[D]" + super.toString() + " (at: " + getPeriod() + ")");
+        return ("[E]" + super.toString() + " (at: " + getPeriod() + ")");
     }
 }

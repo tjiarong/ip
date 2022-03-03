@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.time.LocalDate;
 
 public class Potaton {
 
@@ -20,11 +21,11 @@ public class Potaton {
     public static final String TASK_MARK = "mark";
     public static final String TASK_UNMARK = "unmark";
     public static final String TASK_DELETE = "delete";
+    public static final String FIND_STRING = "find";
     public static final String EXIT = "bye";
-
-    public static final String LOADTASK_TODO = "T";
-    public static final String LOADTASK_EVENT = "E";
-    public static final String LOADTASK_DEADLINE = "D";
+    public static final String LOAD_TODO = "T";
+    public static final String LOAD_EVENT = "E";
+    public static final String LOAD_DEADLINE = "D";
 
     public static final String INIT_FILE_PATH = "potaton.txt";
     public static final String FILE_MISSING_MESSAGE = "File does not exist. Creating file.";
@@ -74,6 +75,9 @@ public class Potaton {
             case TASK_DELETE:
                 deleteTask(line, tasks);
                 break;
+            case FIND_STRING:
+                findString(line, tasks);
+                break;
             default:
                 printError();
                 break;
@@ -102,9 +106,24 @@ public class Potaton {
     }
 
     private static void addEvent(String line, ArrayList<Task> tasks) {
-        String arg = line.split(" ", 2)[1];
-        String event = arg.split("/at ", 2)[0];
-        String eventDate = arg.split("/at ", 2)[1];
+
+        LocalDate eventDate = LocalDate.now().plusMonths(1);
+        String[] arg = line.split(" ", 3);
+
+        if (arg.length != 3) {
+            System.out.println("Invalid options");
+            return;
+        }
+
+        String event = arg[1];
+        String Date = arg[2].split("/at ", 2)[1];
+
+        try {
+            eventDate = LocalDate.parse(Date);
+        } catch (Exception e){
+            System.out.println("Invalid date provided. Setting to default");
+        }
+
         Task t = new Events(event, eventDate);
         tasks.add(t);
         System.out.println("_____________________________________________\n"
@@ -116,9 +135,23 @@ public class Potaton {
     }
 
     private static void loadEvent(String line, ArrayList<Task> tasks) {
-        String arg = line.split("] ", 2)[1];
-        String event = arg.split(" \\(at: ", 2)[0];
-        String eventDate = arg.split(" \\(at: ", 2)[1].split("\\)")[0];
+        LocalDate eventDate = LocalDate.now().plusMonths(1);
+        String[] arg = line.split("] ", 2);
+
+        if (arg.length != 2) {
+            System.out.println("Invalid options");
+            return;
+        }
+
+        String event = arg[1].split(" \\(at: ", 2)[0];
+        String Date = arg[1].split(" \\(at: ", 2)[1].split("\\)")[0];
+
+        try {
+            eventDate = LocalDate.parse(Date);
+        } catch (Exception e){
+            System.out.println("Invalid date provided. Setting to default");
+        }
+
         Task t = new Events(event, eventDate);
         tasks.add(t);
         System.out.println("_____________________________________________\n"
@@ -130,9 +163,23 @@ public class Potaton {
     }
 
     private static void addDeadline(String line, ArrayList<Task> tasks) {
-        String arg = line.split(" ", 2)[1];
-        String task = arg.split("/by ", 2)[0];
-        String dueDate = arg.split("/by ", 2)[1];
+        LocalDate dueDate = LocalDate.now().plusMonths(1);
+        String[] arg = line.split(" ", 3);
+
+        if (arg.length != 3) {
+            System.out.println("Invalid options");
+            return;
+        }
+
+        String task = arg[1];
+        String Date = arg[2].split("/by ", 2)[1];
+
+        try {
+            dueDate = LocalDate.parse(Date);
+        } catch (Exception e){
+            System.out.println("Invalid date provided. Setting to default");
+        }
+
         Task t = new Deadline(task, dueDate);
         tasks.add(t);
         System.out.println("_____________________________________________\n"
@@ -144,9 +191,23 @@ public class Potaton {
     }
 
     private static void loadDeadline(String line, ArrayList<Task> tasks) {
-        String arg = line.split("] ", 2)[1];
-        String task = arg.split(" \\(by: ", 2)[0];
-        String dueDate = arg.split(" \\(by: ", 2)[1].split("\\)")[0];
+        LocalDate dueDate = LocalDate.now().plusMonths(1);
+        String[] arg = line.split("] ", 2);
+
+        if (arg.length != 2) {
+            System.out.println("Invalid options");
+            return;
+        }
+
+        String task = arg[1].split(" \\(by: ", 2)[0];
+        String Date = arg[1].split(" \\(by: ", 2)[1].split("\\)")[0];
+
+        try {
+            dueDate = LocalDate.parse(Date);
+        } catch (Exception e){
+            System.out.println("Invalid date provided. Setting to default");
+        }
+
         Task t = new Deadline(task, dueDate);
         tasks.add(t);
         System.out.println("_____________________________________________\n"
@@ -191,9 +252,15 @@ public class Potaton {
     }
 
     private static void markTask(String line, ArrayList<Task> tasks) {
-        String arg = line.split(" ")[1];
-        int taskNum = Integer.parseInt(arg);
-        if (taskNum <= tasks.size()) {
+        String[] arg = line.split(" ");
+
+        if (arg.length != 2) {
+            System.out.println("Invalid options");
+            return;
+        }
+
+        int taskNum = Integer.parseInt(arg[1]);
+        if (taskNum > 0 & taskNum <= tasks.size()) {
             tasks.get(taskNum - 1).markAsDone();
             System.out.println("_____________________________________________\n"
                     + "Nice! I've marked this task as done:\n"
@@ -206,9 +273,15 @@ public class Potaton {
     }
 
     private static void unmarkTask(String line, ArrayList<Task> tasks) {
-        String arg = line.split(" ")[1];
-        int taskNum = Integer.parseInt(arg);
-        if (taskNum <= tasks.size()) {
+        String[] arg = line.split(" ");
+
+        if (arg.length != 2) {
+            System.out.println("Invalid options");
+            return;
+        }
+
+        int taskNum = Integer.parseInt(arg[1]);
+        if (taskNum > 0 & taskNum <= tasks.size()) {
             tasks.get(taskNum - 1).markAsNotDone();
             System.out.println("_____________________________________________\n"
                     + "OK, I've marked this task as not done yet:\n"
@@ -234,6 +307,28 @@ public class Potaton {
         } else {
             System.out.println("Invalid option");
         }
+    }
+
+    private static void findString(String line, ArrayList<Task> tasks) {
+        String[] arg = line.split(" ");
+
+        if (arg.length != 2) {
+            System.out.println("Invalid options");
+            return;
+        }
+
+        String matchString = arg[1];
+
+        System.out.println("_____________________________________________\n"
+                + "Here are the matching tasks in your list:\n");
+
+        for (Task task: tasks) {
+            if (task.getDescription().contains(matchString)){
+                System.out.println(task);
+            }
+        }
+
+        System.out.println("_____________________________________________\n");
     }
 
     private static void saveContentToFile(ArrayList<Task> tasks) throws IOException {
@@ -273,7 +368,7 @@ public class Potaton {
             String line = s.nextLine();
             String taskType = Character.toString(line.charAt(1));
             switch (taskType) {
-            case LOADTASK_TODO:
+            case LOAD_TODO:
                 try {
                     loadToDo(line, tasks);
                 } catch (IndexOutOfBoundsException e) {
@@ -284,10 +379,10 @@ public class Potaton {
                     );
                 }
                 break;
-            case LOADTASK_DEADLINE:
+            case LOAD_DEADLINE:
                 loadDeadline(line, tasks);
                 break;
-            case LOADTASK_EVENT:
+            case LOAD_EVENT:
                 loadEvent(line, tasks);
                 break;
             default:
