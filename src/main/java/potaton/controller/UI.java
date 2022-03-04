@@ -16,12 +16,10 @@ public class UI {
     public static final String TASK_UNMARK = "unmark";
     public static final String TASK_DELETE = "delete";
     public static final String TASK_FIND = "find";
-
     public static final String EXIT = "bye";
     public static final String LOAD_TODO = "T";
     public static final String LOAD_EVENT = "E";
     public static final String LOAD_DEADLINE = "D";
-
     public static final String TASK_ADDED_MSG = "Got it. I've added this task";
     public static final String TASK_MARKED_MSG = "Nice! I've marked this task as done:";
     public static final String TASK_UNMARKED_MSG = "OK, I've marked this task as not done yet:";
@@ -30,9 +28,12 @@ public class UI {
     public static final String TASK_LIST_MSG = "   Here are the tasks in your list:";
     public static final String MISSING_TASK_DETAILS = "Please fill in all details of task.";
     public static final String INVALID_INPUT = "Invalid input. Try again you nerd.";
-    public static final String INVALID_EVENT_FORMAT = "Invalid event format. Please use: event <description> /at <yyyy-mm-dd> ";
-    public static final String INVALID_DEADLINE_FORMAT = "Invalid deadline format. Please use: deadline <description> /by <yyyy-mm-dd>";
-    public static final String INVALID_TODO_FORMAT = "Invalid todo format. Description of todo cannot be empty";
+    public static final String INVALID_EVENT_FORMAT = "Invalid event format. Please use: event " +
+            "<description> /at <yyyy-mm-dd> ";
+    public static final String INVALID_DEADLINE_FORMAT = "Invalid deadline format. Please use: " +
+            "deadline <description> /by <yyyy-mm-dd>";
+    public static final String INVALID_TODO_FORMAT = "Invalid todo format. Description of todo " +
+            "cannot be empty";
     public static final String INVALID_DATE_FORMAT = "Unknown date entered. Defaulting to 1" +
             " month from now";
     public static final String INVALID_FIND_FORMAT = "Invalid find format. Please use: find <string>";
@@ -63,12 +64,18 @@ public class UI {
         System.out.print(textToPrint);
     }
 
+    /**
+     * Print goodbye message
+     */
     public static void printByeMessage() {
         printText(BORDER);
         printText(GOODBYE_MESSAGE);
         printText(BORDER);
     }
 
+    /**
+     * Print welcome message
+     */
     public static void printWelcomeMessage() {
         printText(BORDER);
         printText(WELCOME_MESSAGE);
