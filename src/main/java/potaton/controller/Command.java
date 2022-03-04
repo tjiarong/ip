@@ -116,7 +116,7 @@ public class Command {
         String[] arg = line.split(" ", 3);
         try {
             String event = arg[1];
-            String parsedDate = arg[2].split("/at ", 2)[1];
+            String parsedDate = arg[2].split("/by ", 2)[1];
             LocalDate dueDate = LocalDate.parse(parsedDate);
             addDeadlineTask(event, dueDate, tasks, false);
         } catch (IndexOutOfBoundsException e) {
