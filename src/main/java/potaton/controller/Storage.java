@@ -48,14 +48,14 @@ public class Storage {
             String event = arg[1].split(" \\(at: ", 2)[0];
             String parsedDate = arg[1].split(" \\(at: ", 2)[1].split("\\)")[0];
             LocalDate eventDate = LocalDate.parse(parsedDate, formatter);
-            Command.addEventTask(event, eventDate, tasks, checkIfDone(arg[0]));
+            TaskList.addEventTask(event, eventDate, tasks, checkIfDone(arg[0]));
         } catch (IndexOutOfBoundsException e) {
             UI.printText(UI.INVALID_TODO_FORMAT);
         } catch (DateTimeParseException e) {
             UI.printText(UI.INVALID_DATE_FORMAT);
             String event = arg[1].split(" \\(at: ", 2)[0];
             LocalDate eventDate = LocalDate.now().plusMonths(1);
-            Command.addEventTask(event, eventDate, tasks, checkIfDone(arg[0]));
+            TaskList.addEventTask(event, eventDate, tasks, checkIfDone(arg[0]));
         }
     }
 
@@ -72,14 +72,14 @@ public class Storage {
             String event = arg[1].split(" \\(by: ", 2)[0];
             String parsedDate = arg[1].split(" \\(by: ", 2)[1].split("\\)")[0];
             LocalDate dueDate = LocalDate.parse(parsedDate, formatter);
-            Command.addDeadlineTask(event, dueDate, tasks, checkIfDone(arg[0]));
+            TaskList.addDeadlineTask(event, dueDate, tasks, checkIfDone(arg[0]));
         } catch (IndexOutOfBoundsException e) {
             UI.printText(UI.INVALID_TODO_FORMAT);
         } catch (DateTimeParseException e) {
             UI.printText(UI.INVALID_DATE_FORMAT);
             String event = arg[1].split(" \\(by: ", 2)[0];
             LocalDate dueDate = LocalDate.now().plusMonths(1);
-            Command.addDeadlineTask(event, dueDate, tasks, checkIfDone(arg[0]));
+            TaskList.addDeadlineTask(event, dueDate, tasks, checkIfDone(arg[0]));
         }
     }
 

@@ -2,8 +2,6 @@ package potaton.controller;
 
 import potaton.task.Task;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -19,11 +17,22 @@ public class Parser {
         Storage.loadFileContent(tasks);
         Scanner in = new Scanner(System.in);
         String line = in.nextLine();
+        executeUserCommand(tasks, in, line);
+        Storage.saveContentToFile(tasks);
+    }
+
+    /**
+     * Takes in user input and executes as command
+     * until user enters exit command
+     * @param tasks
+     * @param in
+     * @param line
+     */
+    private static void executeUserCommand(ArrayList<Task> tasks, Scanner in, String line) {
         while (!line.equals(UI.EXIT)) {
-            Command.executeCommand(tasks, line.trim());
+            TaskList.executeCommand(tasks, line.trim());
             line = in.nextLine();
         }
-        Storage.saveContentToFile(tasks);
     }
 
 }

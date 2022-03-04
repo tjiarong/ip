@@ -61,11 +61,11 @@ _____________________________________________
 
 Adds a new Event with a start date.
 The keyword `event` is followed by a short description
-and a delimiter of `/by` followed by the due date in YYYY-MM-DD format.
+and a delimiter of `/at` followed by the due date in YYYY-MM-DD format.
 
 Format: `event DESCRIPTION /at EVENTDATE`
 
-**Example of usage:**
+**Example usage:**
 
 `event Annual Party /at 2022-05-05`
 
@@ -84,7 +84,7 @@ its status and its description,
 
 Format: `list`
 
-**Example of usage:**
+**Example usage:**
 
 `list`
 
@@ -105,7 +105,7 @@ The task is shown before removal.
 
 Format: `delete INDEX`
 
-**Example of usage:**
+**Example usage:**
 
 `delete 2`
 
@@ -125,7 +125,7 @@ task will be displayed.
 
 Format: `find TERM`
 
-**Example of usage:**
+**Example usage:**
 
 `find groceries`
 
@@ -146,7 +146,7 @@ A character `X` denotes the task as Done.
 
 Format: `mark INDEX / unmark INDEX`
 
-**Example of usage:**
+**Example usage:**
 
 `mark 1`
 
@@ -164,7 +164,7 @@ Get out of the chatbot
 
 Format: `bye`
 
-**Example of usage:**
+**Example usage:**
 
 `bye`
 

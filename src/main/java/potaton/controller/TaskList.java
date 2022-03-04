@@ -10,7 +10,7 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.time.LocalDate;
 
-public class Command {
+public class TaskList {
 
     /**
      * Parse user input and attempts to execute as command
@@ -174,7 +174,6 @@ public class Command {
      * @param tasks
      */
     private static void markTask(String line, ArrayList<Task> tasks) {
-
         try {
             String[] arg = line.split(" ");
             int taskNum = Integer.parseInt(arg[1]);
@@ -201,7 +200,6 @@ public class Command {
      * @param tasks
      */
     public static void unmarkTask(String line, ArrayList<Task> tasks) {
-
         try {
             String[] arg = line.split(" ");
             int taskNum = Integer.parseInt(arg[1]);
@@ -255,7 +253,6 @@ public class Command {
      * @param tasks
      */
     public static void findTask(String line, ArrayList<Task> tasks) {
-
         try {
             String[] arg = line.split(" ", 2);
             String matchString = arg[1];
@@ -263,18 +260,15 @@ public class Command {
             if (matchString.isEmpty()){
                 throw new PotatonException();
             }
-
             UI.printText(UI.BORDER);
             UI.printText(UI.TASK_FIND_MSG);
             findTaskWithString(tasks, matchString);
             UI.printText(UI.BORDER);
-
         } catch (IndexOutOfBoundsException e) {
             UI.printText(UI.INVALID_FIND_FORMAT);
         } catch (PotatonException e) {
             UI.printText(UI.EMPTY_FIND_STRING);
         }
-
     }
 
     /**
