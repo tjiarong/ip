@@ -24,9 +24,9 @@ public class Parser {
     /**
      * Takes in user input and executes as command
      * until user enters exit command
-     * @param tasks
-     * @param in
-     * @param line
+     * @param tasks - list of tasks
+     * @param in - Scanner object
+     * @param line - User input to be parsed
      */
     private static void executeUserCommand(ArrayList<Task> tasks, Scanner in, String line) {
         while (!line.equals(UI.EXIT)) {

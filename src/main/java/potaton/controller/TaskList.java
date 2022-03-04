@@ -14,8 +14,8 @@ public class TaskList {
 
     /**
      * Parse user input and attempts to execute as command
-     * @param tasks
-     * @param line
+     * @param tasks - list of task
+     * @param line - user input
      */
     public static void executeCommand(ArrayList<Task> tasks, String line) {
         String command = line.split(" ")[0];
@@ -52,13 +52,13 @@ public class TaskList {
 
     /**
      * Print all tasks in task list with index
-     * @param tasks
+     * @param tasks - list of task
      */
     private static void printList(ArrayList<Task> tasks) {
         UI.printText(UI.BORDER);
         UI.printText(UI.TASK_LIST_MSG);
         for (int i = 0; i < tasks.size(); i++) {
-            UI.printTextSameLine(String.valueOf(i + 1) + ". ");
+            UI.printTextSameLine((i + 1) + ". ");
             UI.printText(String.valueOf(tasks.get(i)));
         }
         UI.printText(UI.BORDER);
@@ -66,8 +66,8 @@ public class TaskList {
 
     /**
      * Parse and add Event to task list
-     * @param line User's input to be parsed
-     * @param tasks list of tasks
+     * @param line - User's input to be parsed
+     * @param tasks - list of tasks
      * @throws IndexOutOfBoundsException for missing parameters
      */
     private static void addEvent(String line, ArrayList<Task> tasks) {
@@ -89,10 +89,10 @@ public class TaskList {
 
     /**
      * Creates an Event Task object and add it to task list
-     * @param event
-     * @param eventDate
-     * @param tasks
-     * @param isDone
+     * @param event - Event description
+     * @param eventDate - Date of event
+     * @param tasks - list of task
+     * @param isDone - Indicates whether task is done
      */
     public static void addEventTask(String event, LocalDate eventDate, ArrayList<Task> tasks, boolean isDone) {
         Task t = new Events(event, eventDate);
@@ -108,8 +108,8 @@ public class TaskList {
 
     /**
      * Parse and add Deadline to task list
-     * @param line User's input to be parsed
-     * @param tasks list of tasks
+     * @param line - User's input to be parsed
+     * @param tasks - list of tasks
      * @throws IndexOutOfBoundsException for missing parameters
      */
     private static void addDeadline(String line, ArrayList<Task> tasks) {
@@ -130,11 +130,11 @@ public class TaskList {
     }
 
     /**
-     * Creates an Deadline Task object and add it to task list
-     * @param event
-     * @param dueDate
-     * @param tasks
-     * @param isDone
+     * Creates a Deadline Task object and add it to task list
+     * @param event - Event description
+     * @param dueDate - Deadline due date
+     * @param tasks - list of task
+     * @param isDone - Indicates whether task is done
      */
     public static void addDeadlineTask(String event, LocalDate dueDate, ArrayList<Task> tasks, boolean isDone) {
         Task t = new Deadline(event, dueDate);
@@ -150,8 +150,8 @@ public class TaskList {
 
     /**
      * Creates an ToDos Task object and add it to task list
-     * @param line
-     * @param tasks
+     * @param line User's input to be parsed
+     * @param tasks list of tasks
      */
     public static void addToDo(String line, ArrayList<Task> tasks) {
         try {
@@ -170,8 +170,8 @@ public class TaskList {
     /**
      * Search for a task number indicated by user
      * and mark it as done
-     * @param line
-     * @param tasks
+     * @param line - User's input to be parsed
+     * @param tasks - list of tasks
      */
     private static void markTask(String line, ArrayList<Task> tasks) {
         try {
@@ -196,8 +196,8 @@ public class TaskList {
     /**
      * Search for a task number indicated by user
      * and mark it as not done
-     * @param line
-     * @param tasks
+     * @param line - User's input to be parsed
+     * @param tasks - list of tasks
      */
     public static void unmarkTask(String line, ArrayList<Task> tasks) {
         try {
@@ -222,8 +222,8 @@ public class TaskList {
     /**
      * Search for a task number indicated by user
      * and delete it from task list
-     * @param line
-     * @param tasks
+     * @param line - User's input to be parsed
+     * @param tasks - list of tasks
      */
     public static void deleteTask(String line, ArrayList<Task> tasks) {
         try {
@@ -249,8 +249,8 @@ public class TaskList {
      * Given a string from the user, parse the string
      * and search through the task list for a match
      * and prints matching task to output
-     * @param line
-     * @param tasks
+     * @param line - User's input to be parsed
+     * @param tasks - list of tasks
      */
     public static void findTask(String line, ArrayList<Task> tasks) {
         try {
@@ -273,8 +273,8 @@ public class TaskList {
 
     /**
      * Search through task list given a string
-     * @param tasks
-     * @param matchString
+     * @param tasks - list of tasks
+     * @param matchString - String to match task with
      */
     private static void findTaskWithString(ArrayList<Task> tasks, String matchString) {
         for (Task task: tasks) {

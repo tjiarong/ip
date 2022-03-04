@@ -18,7 +18,7 @@ public class Storage {
     /**
      * Check for existence of save file.
      * If not found, create one.
-     * @param f
+     * @param f - The save file to check for
      */
     public static void checkFileExistence(File f) {
         try {
@@ -38,8 +38,8 @@ public class Storage {
     /**
      * Loads and parse line into an Event object
      * and add it to the task list
-     * @param line
-     * @param tasks
+     * @param line - User's input to be parsed
+     * @param tasks - list of tasks
      */
     public static void loadEvent(String line, ArrayList<Task> tasks) {
         String[] arg = line.split("] ", 2);
@@ -50,7 +50,7 @@ public class Storage {
             LocalDate eventDate = LocalDate.parse(parsedDate, formatter);
             TaskList.addEventTask(event, eventDate, tasks, checkIfDone(arg[0]));
         } catch (IndexOutOfBoundsException e) {
-            UI.printText(UI.INVALID_TODO_FORMAT);
+            UI.printText(UI.INVALID_EVENT_FORMAT);
         } catch (DateTimeParseException e) {
             UI.printText(UI.INVALID_DATE_FORMAT);
             String event = arg[1].split(" \\(at: ", 2)[0];
@@ -62,8 +62,8 @@ public class Storage {
     /**
      * Loads and parse line into a Deadline object
      * and add it to the task list
-     * @param line
-     * @param tasks
+     * @param line - User's input to be parsed
+     * @param tasks - list of tasks
      */
     public static void loadDeadline(String line, ArrayList<Task> tasks) {
         String[] arg = line.split("] ", 2);
@@ -74,7 +74,7 @@ public class Storage {
             LocalDate dueDate = LocalDate.parse(parsedDate, formatter);
             TaskList.addDeadlineTask(event, dueDate, tasks, checkIfDone(arg[0]));
         } catch (IndexOutOfBoundsException e) {
-            UI.printText(UI.INVALID_TODO_FORMAT);
+            UI.printText(UI.INVALID_DEADLINE_FORMAT);
         } catch (DateTimeParseException e) {
             UI.printText(UI.INVALID_DATE_FORMAT);
             String event = arg[1].split(" \\(by: ", 2)[0];
@@ -86,8 +86,8 @@ public class Storage {
     /**
      * Loads and parse line into a ToDos object
      * and add it to the task list
-     * @param line
-     * @param tasks
+     * @param line - User's input to be parsed
+     * @param tasks - list of tasks
      */
     public static void loadToDo(String line, ArrayList<Task> tasks) {
         String[] arg = line.split("] ", 2);
@@ -111,22 +111,19 @@ public class Storage {
      * Check if given task is done by checking
      * for presence of 'X' char in string.
      * Returns true if found.
-     * @param arg
-     * @return
+     * @param arg - String argument to search through
+     * @return boolean value indicating if is done
      */
     private static boolean checkIfDone(String arg) {
-        if (arg.contains("X")){
-            return true;
-        }
-        return false;
+        return arg.contains("X");
     }
 
     /**
      * Check for existence of save file and attempts
      * to parse content from it if available. The
-     * parsed content is saved into the tasklist.
+     * parsed content is saved into the task list.
      * If no save file found, a new save file is created.
-     * @param tasks
+     * @param tasks - list of tasks
      */
     public static void loadFileContent(ArrayList<Task> tasks) {
         File f = new File(UI.INIT_FILE_PATH);
@@ -138,8 +135,8 @@ public class Storage {
      * For each line in the save file, we attempt to
      * parse it into one of the 3 task type object:
      * Deadline, Event and Todo.
-     * @param tasks
-     * @param f
+     * @param tasks - list of tasks
+     * @param f - The save file to check for
      */
     public static void parseFileLine(ArrayList<Task> tasks, File f) {
         try {
@@ -169,7 +166,7 @@ public class Storage {
 
     /**
      * Saves task list contents into a save file.
-     * @param tasks
+     * @param tasks - list of tasks
      */
     public static void saveContentToFile(ArrayList<Task> tasks){
         try {
