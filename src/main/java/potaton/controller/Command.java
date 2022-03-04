@@ -12,6 +12,11 @@ import java.time.LocalDate;
 
 public class Command {
 
+    /**
+     * Parse user input and attempts to execute as command
+     * @param tasks
+     * @param line
+     */
     public static void executeCommand(ArrayList<Task> tasks, String line) {
         String command = line.split(" ")[0];
         switch (command) {
@@ -45,7 +50,11 @@ public class Command {
         }
     }
 
-    public static void printList(ArrayList<Task> tasks) {
+    /**
+     * Print all tasks in task list with index
+     * @param tasks
+     */
+    private static void printList(ArrayList<Task> tasks) {
         UI.printText(UI.BORDER);
         UI.printText(UI.TASK_LIST_MSG);
         for (int i = 0; i < tasks.size(); i++) {
@@ -61,7 +70,7 @@ public class Command {
      * @param tasks list of tasks
      * @throws IndexOutOfBoundsException for missing parameters
      */
-    public static void addEvent(String line, ArrayList<Task> tasks) {
+    private static void addEvent(String line, ArrayList<Task> tasks) {
         String[] arg = line.split(" ", 3);
         try {
             String event = arg[1];
@@ -78,6 +87,13 @@ public class Command {
         }
     }
 
+    /**
+     * Creates an Event Task object and add it to task list
+     * @param event
+     * @param eventDate
+     * @param tasks
+     * @param isDone
+     */
     public static void addEventTask(String event, LocalDate eventDate, ArrayList<Task> tasks, boolean isDone) {
         Task t = new Events(event, eventDate);
         if (isDone) {
@@ -96,7 +112,7 @@ public class Command {
      * @param tasks list of tasks
      * @throws IndexOutOfBoundsException for missing parameters
      */
-    public static void addDeadline(String line, ArrayList<Task> tasks) {
+    private static void addDeadline(String line, ArrayList<Task> tasks) {
         String[] arg = line.split(" ", 3);
         try {
             String event = arg[1];
@@ -113,6 +129,13 @@ public class Command {
         }
     }
 
+    /**
+     * Creates an Deadline Task object and add it to task list
+     * @param event
+     * @param dueDate
+     * @param tasks
+     * @param isDone
+     */
     public static void addDeadlineTask(String event, LocalDate dueDate, ArrayList<Task> tasks, boolean isDone) {
         Task t = new Deadline(event, dueDate);
         if (isDone) {
@@ -125,6 +148,11 @@ public class Command {
         UI.printText(UI.BORDER);
     }
 
+    /**
+     * Creates an ToDos Task object and add it to task list
+     * @param line
+     * @param tasks
+     */
     public static void addToDo(String line, ArrayList<Task> tasks) {
         try {
             String arg = line.split(" ", 2)[1];
@@ -139,7 +167,13 @@ public class Command {
         }
     }
 
-    public static void markTask(String line, ArrayList<Task> tasks) {
+    /**
+     * Search for a task number indicated by user
+     * and mark it as done
+     * @param line
+     * @param tasks
+     */
+    private static void markTask(String line, ArrayList<Task> tasks) {
 
         try {
             String[] arg = line.split(" ");
@@ -160,6 +194,12 @@ public class Command {
         }
     }
 
+    /**
+     * Search for a task number indicated by user
+     * and mark it as not done
+     * @param line
+     * @param tasks
+     */
     public static void unmarkTask(String line, ArrayList<Task> tasks) {
 
         try {
@@ -181,6 +221,12 @@ public class Command {
         }
     }
 
+    /**
+     * Search for a task number indicated by user
+     * and delete it from task list
+     * @param line
+     * @param tasks
+     */
     public static void deleteTask(String line, ArrayList<Task> tasks) {
         try {
             String[] arg = line.split(" ");
@@ -201,6 +247,13 @@ public class Command {
         }
     }
 
+    /**
+     * Given a string from the user, parse the string
+     * and search through the task list for a match
+     * and prints matching task to output
+     * @param line
+     * @param tasks
+     */
     public static void findTask(String line, ArrayList<Task> tasks) {
 
         try {
@@ -224,7 +277,12 @@ public class Command {
 
     }
 
-    public static void findTaskWithString(ArrayList<Task> tasks, String matchString) {
+    /**
+     * Search through task list given a string
+     * @param tasks
+     * @param matchString
+     */
+    private static void findTaskWithString(ArrayList<Task> tasks, String matchString) {
         for (Task task: tasks) {
             if (task.getDescription().contains(matchString)){
                 UI.printText(String.valueOf(task));
