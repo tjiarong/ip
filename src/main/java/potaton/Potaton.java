@@ -14,5 +14,6 @@ public class Potaton {
         UI.printWelcomeMessage();
         Parser.parseUserCommand();
         UI.printByeMessage();
+        System.out.println("Hello");
     }
 }
