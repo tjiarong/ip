@@ -15,6 +15,5 @@ public class Potaton {
         Parser.parseUserCommand();
         UI.printByeMessage();
         System.out.println("Hello");
-        System.out.println("Goodnight");
     }
 }
